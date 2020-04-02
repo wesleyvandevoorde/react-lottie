@@ -33,18 +33,16 @@ export default class Lottie extends React.Component {
     this.registerEvents(eventListeners);
   }
 
-  componentWillUpdate(nextProps /* , nextState */) {
+  componentDidUpdate() {
     /* Recreate the animation handle if the data is changed */
-    if (this.options.animationData !== nextProps.options.animationData) {
+    if (this.options.animationData !== this.props.options.animationData) {
       this.deRegisterEvents(this.props.eventListeners);
       this.destroy();
-      this.options = {...this.options, ...nextProps.options};
+      this.options = {...this.options, ...this.props.options};
       this.anim = lottie.loadAnimation(this.options);
-      this.registerEvents(nextProps.eventListeners);
+      this.registerEvents(this.props.eventListeners);
     }
-  }
 
-  componentDidUpdate() {
     if (this.props.isStopped) {
       this.stop();
     } else if (this.props.segments) {
